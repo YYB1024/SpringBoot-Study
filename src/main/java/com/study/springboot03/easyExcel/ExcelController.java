@@ -1,9 +1,9 @@
 package com.study.springboot03.easyExcel;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.ApiOperation;
-import org.apache.catalina.Globals;
-import org.springframework.beans.BeanUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,13 +13,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author yangyanbin
  * @since 20230309
  **/
 @RestController
+@Slf4j
 public class ExcelController {
     @Resource
     private CustomerManager customerManager;
@@ -46,7 +46,7 @@ public class ExcelController {
         EasyExcel.read(file.getInputStream(),CustomerExcelDto.class,easyExcelListener).sheet().doRead();
         //错误结果集
         List<ExcelImportErrObjectDto> errList = easyExcelListener.getErrList();
-        System.out.println("errList = " + errList);
+        log.info("结果集的错误是,{}", JSON.toJSONString(errList));
     /*    if (errList.size() > 0){
             List<CustomerCompleteDtoImprotResult> completeDtoImprotResults = errList.stream().map(excelImportErrObjectDto -> {
                 CustomerCompleteDtoImprotResult customerCompleteDtoImprotResult = BeanUtils.convert(excelImportErrObjectDto.getObject(), CustomerCompleteDtoImprotResult.class);

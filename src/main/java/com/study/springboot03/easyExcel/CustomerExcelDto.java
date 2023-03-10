@@ -5,6 +5,7 @@ import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -33,6 +34,7 @@ public class CustomerExcelDto {
      */
     @ExcelProperty(index = 2,value = "客户编码(导入必填)")
     @ColumnWidth(30)
+    @NotBlank
     private String code;
 
     /**
@@ -47,9 +49,8 @@ public class CustomerExcelDto {
     private String legalbody;
 
 
-
-    @ExcelProperty(index = 5,value = "营业期限(导入格式：yyyy-MM-dd)")
-    @Pattern(regexp = ExcelPatternMsg.DATE2,message = ExcelPatternMsg.DATE2_MSG)
+    @ExcelProperty(index = 5, value = "营业期限(导入格式：yyyy-MM-dd)")
+    @Pattern(regexp = ExcelPatternMsg.DATE_TIME1, message = ExcelPatternMsg.DATE2_MSG)
     private String businessEndDate;
 
 }

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -32,16 +31,17 @@ public class CustomerManager implements ExcelCheckManager<CustomerExcelDto>{
             excelImportSucObjectDto.setObject(excelDto);
             successList.add(excelImportSucObjectDto);
         }
-
-        if(CollectionUtils.isNotEmpty(excelListDis)){
-            excelDtoList.remove(excelListDis);
-        }
+        // 存在错误的
         List<ExcelImportErrObjectDto> failList = new ArrayList<>();
-        if(CollectionUtils.isNotEmpty(excelListDis)){
-            ExcelImportErrObjectDto excelImportErrObjectDto = new ExcelImportErrObjectDto(excelDtoList, "存在重复数据");
-            failList.add(excelImportErrObjectDto);
+        if (excelDtoList.size() != excelListDis.size()) {
+            excelDtoList.remove(excelListDis);
+            if (CollectionUtils.isNotEmpty(excelListDis)) {
+                ExcelImportErrObjectDto excelImportErrObjectDto = new ExcelImportErrObjectDto(excelDtoList, "存在重复数据");
+                failList.add(excelImportErrObjectDto);
+            }
+
         }
-        return new ExcelImportResult(successList,failList);
+        return new ExcelImportResult(successList, failList);
 
     }
 
