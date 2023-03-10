@@ -1,0 +1,10 @@
+spring:
+#  mvc:
+#    static-path-pattern: /res/**
+  #设置欢迎页（资源访问路经）
+  resources:
+    static-locations: classpath:/haha/
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
